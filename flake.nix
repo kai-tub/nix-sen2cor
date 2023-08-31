@@ -1,12 +1,12 @@
 {
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
-    nix-filter.url = "github:numtide/nix-filter";
+    # nix-filter.url = "github:numtide/nix-filter";
     systems.url = "github:nix-systems/x86_64-linux";
   };
-  outputs = { self, nixpkgs, nix-filter, systems, ... }:
+  outputs = { self, nixpkgs, systems, ... }:
     let
-      filter = nix-filter.lib;
+      # filter = nix-filter.lib;
       lib = nixpkgs.lib;
       # lib = pkgs.lib;
       # system = "x86_64-linux";
