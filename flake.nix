@@ -39,6 +39,13 @@
             sen2cor-deps = packages.${system}.sen2cor-deps;
           in
             pkgsFor.${system}.writeShellScriptBin "L2A_Process" ''
+              # unset some variables that allows to have an isolate python environment
+              unset LD_LIBRARY_PATH
+              unset PYTHONPATH
+              unset PYTHONHOME
+              unset PYTHONEXECUTABLE
+              unset PYTHONUSERBASE
+
               export LC_NUMERIC=C
               export GDAL_DATA=${sen2cor-deps}/share/gdal
               export GDAL_DRIVER=disable
