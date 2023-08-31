@@ -73,7 +73,7 @@
 
           unpackCmd = "bash $curSrc --noexec --nox11 --target source";
 
-          patches = [ ./0001-add-logDir-env.patch];
+          patches = [ ./0001-add-logDir-env.patch ./0002-add-cpu-cores-env.patch ];
 
           installPhase = ''
         		runHook preInstall

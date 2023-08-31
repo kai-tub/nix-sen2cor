@@ -1,0 +1,22 @@
+diff --git a/lib/python2.7/site-packages/sen2cor/L2A_Config.py b/lib/python2.7/site-packages/sen2cor/L2A_Config.py
+index c911241..81bda28 100644
+--- a/lib/python2.7/site-packages/sen2cor/L2A_Config.py
++++ b/lib/python2.7/site-packages/sen2cor/L2A_Config.py
+@@ -1175,10 +1175,13 @@ class L2A_Config(object):
+ 
+     def get_nr_procs(self):
+         nrProcs = self._nrProcs
+-        if nrProcs == 'AUTO':
+-            self._nrProcs = cpu_count()
+-        else:
+-            self._nrProcs = int(nrProcs)
++        try:
++            self._nrProcs = int(os.environ['SEN2COR_N_CORES'])
++        except:
++            if nrProcs == 'AUTO':
++                self._nrProcs = cpu_count()
++            else:
++                self._nrProcs = int(nrProcs)
+         return self._nrProcs
+ 
+     def set_nr_tiles(self, value):
