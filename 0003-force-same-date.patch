@@ -1,0 +1,13 @@
+diff --git a/lib/python2.7/site-packages/sen2cor/L2A_Config.py b/lib/python2.7/site-packages/sen2cor/L2A_Config.py
+index 1eb6153..ae4de98 100644
+--- a/lib/python2.7/site-packages/sen2cor/L2A_Config.py
++++ b/lib/python2.7/site-packages/sen2cor/L2A_Config.py
+@@ -3648,7 +3648,7 @@ class L2A_Config(object):
+         l1cUpS = L1C_UP_ID.split('_')
+         baseline = self.processingBaseline
+         pbStr = 'N%05.2f' % baseline
+-        self._UPgenerationTimestamp = datetime.utcnow()
++        self._UPgenerationTimestamp = datetime(2024, 1, 1, 0, 0, 0, 0)
+         generationTimeStr = strftime('%Y%m%dT%H%M%S', self._UPgenerationTimestamp .timetuple())
+         gtsSafe = generationTimeStr + '.SAFE'
+         if self.namingConvention == 'SAFE_STANDARD':
