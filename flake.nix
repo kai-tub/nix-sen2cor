@@ -116,6 +116,10 @@
 
           installPhase = ''
             runHook preInstall
+
+            set -o errexit
+            set -o pipefail
+
             mkdir -p $out/bin
             cp bin/* $out/bin/
             # should also make autoPatchElf search
@@ -137,7 +141,6 @@
             OUT_DIR=$out bash $out/make_symlinks
             ln -sf "$out/lib/ld-musl-x86_64.so.1" "$out/lib/libc.musl-x86_64.so.1"
 
-            cp $test/bin/* $out/bin/
             runHook postInstall
           '';
 
@@ -157,10 +160,7 @@
             patchelf --set-interpreter $out/lib/ld-musl-x86_64.so.1 $out/bin/python2.7
             # can run through all files (skipping symbolic links)
             # and checking if patchelf --print-interpreter returns a non-zero exit code
-              # FUTURE: Could improve this by using `nuenv` and creating a `writeScriptBin` method
-            ${
-              pkgsFor.${system}.nushell
-            }/bin/nu -c 'ls $env.out | where type == "file" | get name | filter {|x| (patchelf $x | complete | get exit_code) == 0 } | each {|p| patchelf --set-interpreter $env.out + "/lib/ld-musl-x86_64.so.1" $p }'
+            nu -c 'ls $env.out | where type == "file" | get name | filter {|x| (patchelf $x | complete | get exit_code) == 0 } | each {|p| patchelf --set-interpreter $env.out + "/lib/ld-musl-x86_64.so.1" $p }'
             # looks like there is no easy way to overwrite the
             # standard interpreter
             # dynamic-linker correctly
@@ -187,8 +187,9 @@
           dontPatchELF = true;
 
           doInstallCheck = true;
+          dontPatchShebangs = false; # HERE:
 
-          nativeBuildInputs = [pkgsFor.${system}.autoPatchelfHook];
+          nativeBuildInputs = with pkgsFor.${system}; [autoPatchelfHook bash nushell];
         };
       });
   };
